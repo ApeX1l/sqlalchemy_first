@@ -54,9 +54,14 @@ def main():
     user.email = "petr_olegov@google.com"
     db_sess.add(user)
     db_sess.commit()
+
+    note = Jobs(team_leader=1, job="deployment of residential modules 1 and 2",
+                work_size=15, collaborators='2, 3', start_date='now', is_finished=False)
+    db_sess.add(note)
+    db_sess.commit()
     # for user in db_sess.query(User).all():
     #     print(user)
-    # user = db_sess.query(User).filter(User.id == 1).first()
+
     # for news in user.news:
     #     print(news.content)
 
