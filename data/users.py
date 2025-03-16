@@ -21,9 +21,6 @@ class User(SqlAlchemyBase):
                                       default=datetime.datetime.now)
     boss = orm.relationship("Jobs", back_populates='user')
 
-    # def __repr__(self):
-    #     return f'<Colonist> {self.id} {self.surname} {self.name}'
-
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
 
