@@ -2,6 +2,7 @@ import datetime
 
 from flask import Flask, render_template, redirect
 from data import db_session
+from data.departments import Departament
 from forms.user import RegisterForm
 import sys
 
@@ -78,11 +79,34 @@ def main():
     # db_sess.add(note)
     # db_sess.commit()
 
-    # for user in db_sess.query(User).all():
-    #     print(user)
+    # user = db_sess.query(User).filter(User.id == 1).first()
+    # print(user)
+    # note = Departament(title='геологическая разведка', chief=user.id, members='2, 3',
+    #                    email='departament1@email.com')
+    # db_sess.add(note)
+    #
+    # user = db_sess.query(User).filter(User.id == 2).first()
+    # note = Departament(title='инженерная стезя', chief=user.id, members='3, 4',
+    #                    email='departament2@email.com')
+    # db_sess.add(note)
+    #
+    # user = db_sess.query(User).filter(User.id == 3).first()
+    # note = Departament(title='социальная отрасль', chief=user.id, members='1, 2, 3, 4',
+    #                    email='departament3@email.com')
+    # db_sess.add(note)
+    #
+    # user = db_sess.query(User).filter(User.id == 4).first()
+    # note = Departament(title='телекоммуникация', chief=user.id, members='1',
+    #                    email='departament4@email.com')
+    # db_sess.add(note)
+    # db_sess.commit()
 
-    # for news in user.news:
-    #     print(news.content)
+    peoples = db_sess.query(Departament).filter(Departament.id == 1).first()
+    polz = [int(i) for i in peoples.members.split(', ')]
+    tr = db_sess.query(User).filter(User.id.in_(polz)).all()
+    for user in tr:
+        if [job.work_size for job in user.boss if job.work_size > 15]:
+            print(user.surname, user.name)
 
     app.run()
 
@@ -92,8 +116,6 @@ def index():
     db_sess = db_session.create_session()
     job = db_sess.query(Jobs).all()
     return render_template("index.html", job=job)
-
-
 
 
 @app.route('/register', methods=['GET', 'POST'])

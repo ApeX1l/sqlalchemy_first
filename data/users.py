@@ -19,7 +19,9 @@ class User(SqlAlchemyBase):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
-    boss = orm.relationship("Jobs", back_populates='user')
+
+    boss = orm.relationship("Jobs", back_populates='user_job')
+    depart = orm.relationship('Departament', back_populates='user_depart')
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)
